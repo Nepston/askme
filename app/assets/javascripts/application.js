@@ -10,5 +10,13 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require rails-ujs
-//= require_tree .
+//= require jquery
+//= require jquery_ujs
+//= require jquery.simplecolorpicker.js
+
+$(function(){
+  $('#ask-button').click(function(){
+    $('#ask-form').slideToggle(300);
+      return false;
+  });
+});
