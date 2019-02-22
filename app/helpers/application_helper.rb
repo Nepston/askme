@@ -8,21 +8,6 @@ module ApplicationHelper
   end
 
   def sklonenie(number, vopros, voprosa, voprosov)
-    ostatok = number % 100
-
-    return voprosov if ostatok.between?(11, 14)
-
-    ostatok = number % 10
-
-    case ostatok
-    when 1 then return vopros
-    when 2..4 then return voprosa
-    when 5..9, 0 then return voprosov
-    end
-  end
-
-
-  def sklonenie(number, vopros, voprosa, voprosov)
     tens = number % 100 / 10 #вычисляем десятки в классе единиц
     ones = number % 10 #вычисляем единицы в классе единиц
 
