@@ -7,6 +7,11 @@ module ApplicationHelper
     end
   end
 
+  # Хелпер, рисующий span тэг с иконкой из font-awesome
+  def fa_icon(icon_class)
+    content_tag 'span', '', class: "fa fa-#{icon_class}"
+  end
+
   def sklonenie(number, vopros, voprosa, voprosov)
     tens = number % 100 / 10 #вычисляем десятки в классе единиц
     ones = number % 10 #вычисляем единицы в классе единиц

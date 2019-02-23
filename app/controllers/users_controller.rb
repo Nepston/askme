@@ -1,43 +1,56 @@
 class UsersController < ApplicationController
+
+  before_action :load_user, except: [:index, :create, :new]
+  before_action :authorize_user, except: [:index, :new, :create, :show ]
+
   def index
-    @users = [
-        User.new(
-          id: 1,
-          name: 'Nepston',
-          username: 'nepston@gmail.com',
-          avatar_url: 'http://www.picshare.ru/uploads/190221/VS37egkIj9.jpg'
-        ),
-        User.new(
-            id: 2,
-            name: 'Oleg',
-            username: 'BBodw',
-            avatar_url: ''
-        )
-    ]
+    @users = User.all
   end
 
   def new
+    redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
+    @user = User.new
+  end
+
+  def create
+    redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
+
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to root_url, notice: 'Пользователь успешно зарегистрирован'
+    else
+      render 'new'
+    end
   end
 
   def edit
   end
 
+  def update
+    if @user.update(user_params)
+      redirect_to user_path, notice: 'Данные обновлены'
+    else
+      render 'edit'
+    end
+  end
+
   def show
-    @user = User.new(
-      name: 'Marat',
-      username: 'Nepston',
-      email: 'nepston@gmail.com',
-      avatar_url: 'http://www.picshare.ru/uploads/190221/VS37egkIj9.jpg',
-    )
+    @questions = @user.questions.order(created_at: :desc)
 
-    @questions = [
-      Question.new(text: 'Как дела?', created_at: Date.parse('22.02.2019')),
-      Question.new(text: 'Как жизнь?', created_at: Date.parse('22.02.2019')),
-      Question.new(text: 'Как настроение?', created_at: Date.parse('22.02.2019')),
-      Question.new(text: 'Почему Земля крутится?', created_at: Date.parse('22.02.2019')),
-      Question.new(text: 'Кто Я?', created_at: Date.parse('22.02.2019'))
-    ]
+    @new_question = @user.questions.build
+  end
 
-    @new_question = Question.new
+  private
+
+  def authorize_user
+    reject_user unless @user == current_user
+  end
+
+  def load_user
+    @user ||= User.find params[:id]
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :name, :username, :avatar_url)
   end
 end

@@ -20,7 +20,10 @@ Bundler.require(*Rails.groups)
 module Askme
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.time_zone = 'Europe/Moscow'
+    config.time_zone = 'Moscow'
+    config.i18n.default_locale = :en
+    config.i18n.locale = :ru
+    config.i18n.fallbacks = [:en]
 
     config.load_defaults 5.2
 
