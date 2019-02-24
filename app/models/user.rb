@@ -9,7 +9,9 @@ class User < ApplicationRecord
   VALID_USERNAME_REGEX = /\A\w+\z/i
   COLOR_REGEX = /\A#([\da-f]{3}){1,2}\z/i
 
-  has_many :questions
+  has_many :questions, dependent: :destroy
+  has_many :authored_questions, class_name: "Question",
+           foreign_key: "author_id", dependent: :nullify
 
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: { case_sensitive: false }
