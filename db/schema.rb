@@ -19,10 +19,8 @@ ActiveRecord::Schema.define(version: 2019_02_24_182932) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "author_id"
-    t.integer "users_id"
     t.index ["author_id"], name: "index_questions_on_author_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
-    t.index ["users_id"], name: "index_questions_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|
