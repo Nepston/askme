@@ -4,8 +4,10 @@ class User < ApplicationRecord
   #параметры работы модуля шифрования паролей
   ITERATIONS = 20000
   DIGEST = OpenSSL::Digest::SHA256.new
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  VALID_USERNAME_REGEX = /\A[\w]+\z/i
+  VALID_USERNAME_REGEX = /\A\w+\z/i
+  COLOR_REGEX = /\A#([\da-f]{3}){1,2}\z/i
 
   has_many :questions
 
@@ -14,8 +16,7 @@ class User < ApplicationRecord
   validates :email, format: { with: VALID_EMAIL_REGEX }
   validates :username, length: { maximum: 40 }
   validates :username, format: { with: VALID_USERNAME_REGEX }
-
-
+  validates :bg_color, format: { with: COLOR_REGEX }, allow_blank: true
 
   before_validation :downcase
 
@@ -53,7 +54,10 @@ class User < ApplicationRecord
     user = find_by(email: email) #находим юзера по email'у
 
     #сравниваем password_hash (оригинальный пароль никуда не сохраняем)
-    if user.present? && user.password_hash == User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST))
+    if user.present? && user.password_hash == User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(password,
+                                                                                             user.password_salt,
+                                                                                             ITERATIONS, DIGEST.length,
+                                                                                             DIGEST))
       user
     else
       nil

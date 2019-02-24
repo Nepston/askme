@@ -12,6 +12,14 @@ module ApplicationHelper
     content_tag 'span', '', class: "fa fa-#{icon_class}"
   end
 
+  def user_bg_color(user)
+    if user.bg_color.present?
+      user.bg_color
+    else
+      '#005a55'
+    end
+  end
+
   def sklonenie(number, vopros, voprosa, voprosov)
     tens = number % 100 / 10 #вычисляем десятки в классе единиц
     ones = number % 10 #вычисляем единицы в классе единиц

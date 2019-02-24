@@ -1,4 +1,4 @@
-<div class="user-header text-center">
+<div class="user-header text-center" style="background: <%= user_bg_color(@user) %>">
   <h1 class="title-medium">
     <%= @user.name %>
   </h1>
@@ -43,7 +43,7 @@
         <%= @unanswered_count %>
       </h1>
       <p>
-        <%= sklonenie(@unanswered_count, 'без ответа', 'без ответа', 'без ответов') %>
+        <%= 'без ответа' %>
       </p>
     </div>
   </div>
