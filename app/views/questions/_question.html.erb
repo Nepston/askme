@@ -2,17 +2,35 @@
 <%# локальная переменная question, в которую при вызове будет передан %>
 <%# как в метод ruby объект после ключа (object: @question) %>
 
+<% select_tag ||= "" %>
+
 <div class="question">
   <div class="question-content">
     <%# Текст вопроса %>
     <div class="question-text text-lead">
-      <%= question.text %>
+      <% question.text.split.each do |i| %>
+        <% if i == select_tag %>
+          <%= link_to i, questions_url(q: URI.encode(i.gsub('#',''))), class: 'select-tag-link' %>
+        <% elsif i =~ /\#[[:word:]]+/i%>
+          <%= link_to i, questions_url(q: URI.encode(i.gsub('#',''))), class: 'question-tag-link' %>
+        <% else %>
+          <%= i %>
+        <% end %>
+      <% end %>
     </div>
 
     <%# Текст ответа, если он есть %>
     <% if question.answer.present? %>
       <div class="question-answer text-lead">
-        <%= question.answer %>
+        <% question.answer.split.each do |i| %>
+          <% if i == select_tag %>
+            <%= link_to i, questions_url(q: URI.encode(i.gsub('#',''))), class: 'select-tag-link' %>
+          <% elsif i =~ /\#[[:word:]]+/i%>
+            <%= link_to i, questions_url(q: URI.encode(i.gsub('#',''))), class: 'question-tag-link' %>
+          <% else %>
+            <%= i %>
+          <% end %>
+        <% end %>
       </div>
     <% end %>
 

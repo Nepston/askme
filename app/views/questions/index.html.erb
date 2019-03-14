@@ -1,15 +1,14 @@
 <%# Страница редактирования вопроса %>
 <div class="container content-wrapper buffer-both">
-  <h1 class="title-medium">Вопросы</h1>
+  <h1 class="title-medium">Вопросы и ответы<%= " c \##{@selected_tag}" unless @selected_tag.nil?%></h1>
 
-  <div class="column-3-4">
+
     <div class="user-questions buffer-both">
       <div class="questions-list">
         <% @selected_questions.each do |question| %>
-          <%= render partial: 'questions/question', object: question %>
+          <%= render partial: 'questions/question', object: question, locals: {select_tag: "\##{@selected_tag}"} %>
         <% end %>
       </div>
     </div>
-  </div>
 
 </div>

@@ -8,8 +8,9 @@ class QuestionsController < ApplicationController
     if params[:q].nil?
       @selected_questions = Question.all
     else
-      str = '%' + URI.decode(params[:q]) + '%'
-      @selected_questions = Question.where("text LIKE ?", str)
+      @selected_tag = URI.decode(params[:q])
+      str = '%' + @selected_tag + '%'
+      @selected_questions = Question.where('text LIKE ? OR answer LIKE ? ', str, str)
     end
   end
 

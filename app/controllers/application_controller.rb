@@ -16,11 +16,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_all_tags
-    @tags = []
-    Question.all.map(&:text).each do |str|
-      @tags << str.scan(/\#[[:word:]]+/i)
-    end
-    @tags.compact!
+    @tags = Question.all.pluck(:text, :answer).flatten.compact
+    @tags.map!{ |v| v.scan(/\#[[:word:]]+/i) }
     @tags.flatten!.uniq!
   end
 end
