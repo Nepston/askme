@@ -24,6 +24,12 @@ class QuestionsController < ApplicationController
     @question.author = current_user
 
     if @question.save
+
+      tags = @question.text.scan(/\#[[:word:]]+/i)
+      tags.each do |i|
+        Tag.create!(value: i, question_id: @question.id )
+      end
+
       redirect_to user_path(@question.user), notice: 'Вопрос задан'
     else
       render :edit
