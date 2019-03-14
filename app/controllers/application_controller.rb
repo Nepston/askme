@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # http://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf
   protect_from_forgery with: :exception
 
-  helper_method :current_user
+  helper_method :current_user, :get_all_tags
 
   private
 
@@ -13,5 +13,14 @@ class ApplicationController < ActionController::Base
 
   def reject_user
     redirect_to root_path, alert: 'Вам сюда нельзя!'
+  end
+
+  def get_all_tags
+    @tags = []
+    Question.all.map(&:text).each do |str|
+      @tags << str.scan(/\#[[:word:]]+/i)
+    end
+    @tags.compact!
+    @tags.flatten!.uniq!
   end
 end

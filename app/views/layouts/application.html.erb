@@ -41,5 +41,14 @@
         <%= yield %>
       </div>
     </div>
+
+
+    <div class="footer">
+      <div class="container">
+        <% @tags.each do |str| %>
+          <%= link_to str, questions_url(q: URI.encode(str.gsub('#',''))) %>
+        <% end %>
+      </div>
+    </div>
   </body>
 </html>

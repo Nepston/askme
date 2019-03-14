@@ -1,6 +1,17 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user, except: [:index, :new, :create, :show ]
+  before_action :get_all_tags, only: [:index]
+
+  # GET /questions
+  def index
+    if params[:q].nil?
+      @selected_questions = Question.all
+    else
+      str = '%' + URI.decode(params[:q]) + '%'
+      @selected_questions = Question.where("text LIKE ?", str)
+    end
+  end
 
   # GET /questions/1/edit
   def edit
