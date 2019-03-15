@@ -14,16 +14,15 @@ ActiveRecord::Schema.define(version: 2019_03_14_230118) do
 
   create_table "hashtags", force: :cascade do |t|
     t.text "value"
-    t.integer "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_hashtags_on_question_id"
+    t.index ["value"], name: "index_hashtags_on_value", unique: true
   end
 
   create_table "hashtags_questions", id: false, force: :cascade do |t|
     t.integer "hashtag_id", null: false
     t.integer "question_id", null: false
-    t.index ["hashtag_id", "question_id"], name: "index_hashtags_questions_on_hashtag_id_and_question_id"
+    t.index ["hashtag_id", "question_id"], name: "index_hashtags_questions_on_hashtag_id_and_question_id", unique: true
   end
 
   create_table "questions", force: :cascade do |t|

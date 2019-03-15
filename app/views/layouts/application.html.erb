@@ -46,7 +46,7 @@
     <div class="footer buffer-top-large">
       <div class="container">
         <% @all_hashtags.each do |tag| %>
-          <%= link_to "\##{tag}", questions_url(q: URI.encode(tag)) %>
+          <%= link_to "\##{tag}", questions_url(q: tag) %>
         <% end %>
       </div>
     </div>

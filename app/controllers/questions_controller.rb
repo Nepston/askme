@@ -8,8 +8,8 @@ class QuestionsController < ApplicationController
     if params[:q].nil?
       @selected_questions = Question.all
     else
-      @selected_hashtag_value = URI.decode(params[:q])
-      @selected_questions = Question.find(Hashtag.select(:id).where(value: @selected_hashtag_value).limit(1))
+      @selected_hashtag_value = params[:q].downcase
+      @selected_questions = Question.includes(:hashtags).where(:hashtags => {value: @selected_hashtag_value}).order(updated_at: :desc)
     end
   end
 

@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
   end
 
   def get_all_tags
-    @all_hashtags = Hashtag.all.pluck(:value).uniq
+    @all_hashtags = Hashtag.all.pluck(:value)
   end
 end
