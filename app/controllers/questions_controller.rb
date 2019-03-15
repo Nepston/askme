@@ -8,9 +8,8 @@ class QuestionsController < ApplicationController
     if params[:q].nil?
       @selected_questions = Question.all
     else
-      @selected_tag = URI.decode(params[:q])
-      str = '%' + @selected_tag + '%'
-      @selected_questions = Question.where('text LIKE ? OR answer LIKE ? ', str, str)
+      @selected_hashtag_value = URI.decode(params[:q])
+      @selected_questions = Question.find(Hashtag.select(:id).where(value: @selected_hashtag_value).limit(1))
     end
   end
 
@@ -24,12 +23,6 @@ class QuestionsController < ApplicationController
     @question.author = current_user
 
     if @question.save
-
-      tags = @question.text.scan(/\#[[:word:]]+/i)
-      tags.each do |i|
-        Tag.create!(value: i, question_id: @question.id )
-      end
-
       redirect_to user_path(@question.user), notice: 'Вопрос задан'
     else
       render :edit

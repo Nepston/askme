@@ -42,11 +42,11 @@
       </div>
     </div>
 
-    <% unless @tags.nil? %>
+    <% unless @all_hashtags.nil? %>
     <div class="footer buffer-top-large">
       <div class="container">
-        <% @tags.each do |str| %>
-          <%= link_to str, questions_url(q: URI.encode(str.gsub('#',''))) %>
+        <% @all_hashtags.each do |tag| %>
+          <%= link_to "\##{tag}", questions_url(q: URI.encode(tag)) %>
         <% end %>
       </div>
     </div>
