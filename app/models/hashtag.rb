@@ -1,8 +1,13 @@
 class Hashtag < ApplicationRecord
-  has_and_belongs_to_many :questions
 
-  validates :value, presence: true, length: { maximum: 255 }
+  REGEXP = /#[[:word:]]+/
 
-  private
+  has_many :hashtags_questions
+  has_many :questions, through: :hashtags_questions
 
+  validates :value, presence: true, uniqueness: true
+
+  def to_param
+    value
+  end
 end

@@ -12,3 +12,14 @@
   <% end %>
 
 </div>
+
+<% unless @hashtags.nil? %>
+  <div class="footer buffer-top-large">
+    <div class="container">
+      <% @hashtags.each do |h| %>
+        <%= link_to "#{h.value}", hashtag_url(h) %>
+        &nbsp;
+    <% end %>
+    </div>
+  </div>
+<% end %>

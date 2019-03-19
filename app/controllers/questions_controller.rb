@@ -1,16 +1,9 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user, except: [:index, :new, :create, :show ]
-  before_action :get_all_tags, only: [:index]
+  before_action :authorize_user, except: [:show, :new, :create, :show ]
 
   # GET /questions
-  def index
-    if params[:q].nil?
-      @selected_questions = Question.all
-    else
-      @selected_hashtag_value = params[:q].downcase
-      @selected_questions = Question.includes(:hashtags).where(:hashtags => {value: @selected_hashtag_value}).order(updated_at: :desc)
-    end
+  def show
   end
 
   # GET /questions/1/edit

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # http://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :get_all_tags
+  helper_method :current_user
 
   private
 
@@ -15,7 +15,4 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: 'Вам сюда нельзя!'
   end
 
-  def get_all_tags
-    @all_hashtags = Hashtag.all.pluck(:value)
-  end
 end

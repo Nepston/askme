@@ -1,36 +1,16 @@
-<%# Это фрагмет (паршал, partial) для вывода вопроса. В нем определена %>
-<%# локальная переменная question, в которую при вызове будет передан %>
-<%# как в метод ruby объект после ключа (object: @question) %>
-
-<% select_tag ||= "" %>
+<% hashtag ||= "" %>
 
 <div class="question">
   <div class="question-content">
     <%# Текст вопроса %>
     <div class="question-text text-lead">
-      <% question.text.split.map(&:downcase).each do |qu| %>
-        <% if qu == select_tag %>
-          <%= link_to qu, questions_url(q: qu.gsub('#','')), class: 'select-tag-link' %>
-        <% elsif qu =~ /\#[[:word:]]+/i%>
-          <%= link_to qu, questions_url(q: qu.gsub('#','')), class: 'question-tag-link' %>
-        <% else %>
-          <%= qu %>
-        <% end %>
-      <% end %>
+      <%= add_hashtag_links(question.text, hashtag) %>
     </div>
 
     <%# Текст ответа, если он есть %>
     <% if question.answer.present? %>
       <div class="question-answer text-lead">
-        <% question.answer.split.map(&:downcase).each do |qu| %>
-          <% if qu == select_tag %>
-            <%= link_to qu, questions_url(q: qu.gsub('#','')), class: 'select-tag-link' %>
-          <% elsif qu =~ /\#[[:word:]]+/i%>
-            <%= link_to qu, questions_url(q: qu.gsub('#','')), class: 'question-tag-link' %>
-          <% else %>
-            <%= qu %>
-          <% end %>
-        <% end %>
+        <%= add_hashtag_links(question.answer, hashtag) %>
       </div>
     <% end %>
 

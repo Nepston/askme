@@ -6,22 +6,22 @@ class Question < ApplicationRecord
   validates :text, :user, presence: true
   validates :text, length: { maximum: 255 }
 
-  before_save :add_hashtags, on: [:create, :update]
-  after_commit :delete_hashtags, on: [:update, :destroy]
+  has_many :hashtags_questions
+  has_many :hashtags, through: :hashtags_questions
 
-  has_and_belongs_to_many :hashtags, dependent: :destroy
+  before_save :extract_hashtags
+  before_destroy :delete_hashtags
 
   def extract_hashtags
-    [text, answer].to_s.scan(/[\#]([[:word:]]+)/i).flatten.uniq.map(&:downcase)
-  end
+    hashtags_questions.clear
 
-  def add_hashtags
-    self.hashtags = self.extract_hashtags.map do |extr_tag|
-      Hashtag.find_or_create_by(value: extr_tag)
+    "#{text} #{answer}".scan(Hashtag::REGEXP).flatten.uniq.map(&:downcase).each do |h|
+      hashtags << Hashtag.find_or_create_by!(value: h)
     end
   end
 
   def delete_hashtags
-    Hashtag.includes(:questions).where(questions: { id: nil }).destroy_all
+    self.hashtags.destroy_all
+    self.hashtags_questions.destroy_all
   end
 end

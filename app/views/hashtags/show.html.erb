@@ -1,0 +1,11 @@
+<%# Страница редактирования вопроса %>
+<div class="container content-wrapper buffer-both">
+  <h1 class="title-medium">Вопросы и ответы<%= " c #{@hashtag.value}" unless @hashtag.value.nil?%></h1>
+    <div class="user-questions buffer-both">
+      <div class="questions-list">
+        <% @questions.each do |question| %>
+          <%= render partial: 'questions/question', object: question, locals: {hashtag: "#{@hashtag.value}"} %>
+        <% end %>
+      </div>
+    </div>
+</div>
