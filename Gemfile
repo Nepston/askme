@@ -10,6 +10,8 @@ gem 'jquery-rails', '~> 4.1'
 gem 'jquery-simplecolorpicker-rails'
 gem 'uglifier'
 
+gem 'recaptcha', require: 'recaptcha/rails'
+
 group :production do
   gem 'pg'
 end
